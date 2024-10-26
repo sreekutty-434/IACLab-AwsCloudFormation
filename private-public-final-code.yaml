@@ -8,7 +8,7 @@ Resources:
         - Key: Name
           Value: MyVPC
 
-  # Public Subnet
+  # Public Subnet for ------
   PublicSubnet:
     Type: AWS::EC2::Subnet
     Properties:
