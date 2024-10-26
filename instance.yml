@@ -1,5 +1,10 @@
+Mappings:
+  AMIRegionMapID:
+    us-east-1:
+      MySelectedAMI: ami-06b21ccaeff8cd686
+    eu-west-1:
+      MySelectedAMI: ami-00385a401487aefa4
 Resources:
-
   SGJumpbox:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -22,7 +27,7 @@ Resources:
       SubnetId: !ImportValue JumpboxSubnetId
       SecurityGroupIds:
         - !Ref SGJumpbox
-      ImageId: ami-06b21ccaeff8cd686
+      ImageId: !FindInMap [ AMIRegionMapID, !Ref "AWS::Region", MySelectedAMI ]
       Tags:
         - Key: Name
           Value: JumpBoxInstance
@@ -73,5 +78,5 @@ Resources:
         - !Ref SGPrivate
       SubnetId: !ImportValue PrivateSubnetId
       KeyName: L00187434Key
-      ImageId: ami-06b21ccaeff8cd686
+      ImageId: !FindInMap [ AMIRegionMapID, !Ref "AWS::Region", MySelectedAMI ]
 
