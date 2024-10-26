@@ -6,7 +6,7 @@ Resources:
       Tags:
         - Key: Name
           Value: MyVPC
-
+# Public Subnet
   PublicSubnet:
     Type: AWS::EC2::Subnet
     Properties:
@@ -19,7 +19,7 @@ Resources:
       Tags:
         - Key: Name
           Value: MyPublicSubnet
-
+# Jump Box Subnet
   JumpboxSubnet:
     Type: AWS::EC2::Subnet
     Properties:
@@ -32,7 +32,7 @@ Resources:
       Tags:
         - Key: Name
           Value: JumpboxSubnet
-
+# Private Subnet
   PrivateSubnet:
     Type: AWS::EC2::Subnet
     Properties:
@@ -44,7 +44,7 @@ Resources:
       Tags:
         - Key: Name
           Value: MyPrivateSubnet
-
+# InternetGateway
   InternetGateway:
     Type: AWS::EC2::InternetGateway
     Properties:
@@ -66,7 +66,8 @@ Resources:
     Properties:
       AllocationId: !GetAtt ElasticIPForNAT.AllocationId
       SubnetId: !Ref JumpboxSubnet
-
+ 
+ # Public Route Table
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -87,7 +88,7 @@ Resources:
     Properties:
       SubnetId: !Ref PublicSubnet
       RouteTableId: !Ref PublicRouteTable
-
+# Private Route Table
   PrivateRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
@@ -105,7 +106,7 @@ Resources:
     Properties:
       SubnetId: !Ref PrivateSubnet
       RouteTableId: !Ref PrivateRouteTable
-
+# Jump Box Route table
   JumpboxRouteTable:
     Type: AWS::EC2::RouteTable
     Properties:
