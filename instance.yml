@@ -1,0 +1,50 @@
+Resources:
+
+  SGPublic:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      VpcId: !ImportValue MyVPCId
+      GroupDescription: Allow public HTTP, SSH
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Sub "${JumpBoxInstance.PrivateIp}/32"
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+
+  PublicInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      SecurityGroupIds:
+        - !Ref SGPublic
+      SubnetId: !ImportValue PublicSubnetId
+      KeyName: L00187434Key
+      ImageId: ami-06b21ccaeff8cd686
+
+ 
+      
+  SGPrivate:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH from jumpbox
+      VpcId: !ImportValue MyVPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Sub "${JumpBoxInstance.PrivateIp}/32"
+
+  PrivateInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t2.micro
+      SecurityGroupIds:
+        - !Ref SGPrivate
+      SubnetId: !ImportValue PrivateSubnetId
+      KeyName: L00187434Key
+      ImageId: ami-06b21ccaeff8cd686
+
